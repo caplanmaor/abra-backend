@@ -1,13 +1,10 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
+from django.db.models import Q
 from messenger.models import Message
 from django.core import serializers
 
-# import json
-@csrf_exempt
 def create_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -17,7 +14,6 @@ def create_user(request):
         user.save()
         return HttpResponse(status=200)
 
-@csrf_exempt
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -26,7 +22,6 @@ def login_user(request):
         login(request, user)
         return HttpResponse(status=200)
 
-@csrf_exempt
 def send_message(request):
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -42,7 +37,6 @@ def send_message(request):
             # Do something for anonymous users.
             return HttpResponse(status=500)
 
-@csrf_exempt
 def read_message(request):
     if request.method == "GET":
         message = Message.objects.filter(receiver_id=request.user.id).first()
@@ -52,7 +46,6 @@ def read_message(request):
         message_json = serializers.serialize("json", [message])
         return HttpResponse(message_json)
 
-@csrf_exempt
 def read_all_messages(request):
     if request.method == "GET":
         messages = Message.objects.filter(receiver_id=request.user.id).all()
@@ -63,7 +56,6 @@ def read_all_messages(request):
         messages_json = serializers.serialize("json", messages)
         return HttpResponse(messages_json)
 
-@csrf_exempt
 def read_unread_messages(request):
     if request.method == "GET":
         messages = Message.objects.filter(receiver_id=request.user.id).filter(is_read=False).all()
@@ -73,3 +65,10 @@ def read_unread_messages(request):
             message.save()
         messages_json = serializers.serialize("json", messages)
         return HttpResponse(messages_json)
+
+def delete_message(request):
+    if request.method == "POST":
+        id = request.POST['message_id']
+        message = Message.objects.filter(Q(receiver_id=request.user.id) | Q(owner_id=request.user.id)).filter(id=id).first()
+        message.delete()
+        return HttpResponse(status=200)
