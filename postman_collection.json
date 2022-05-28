@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "17b2830e-cbbe-4997-ba04-b8863d0d4a33",
+		"name": "messenger-prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_user (maor)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "maor",
+							"type": "default"
+						},
+						{
+							"key": "password\n",
+							"value": "maor",
+							"type": "default"
+						},
+						{
+							"key": "email",
+							"value": "test@gmail.com",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/create_user",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"create_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_user (tomer)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "tomer",
+							"type": "default"
+						},
+						{
+							"key": "password\n",
+							"value": "tomer",
+							"type": "default"
+						},
+						{
+							"key": "email",
+							"value": "test@gmail.com",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/create_user",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"create_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_user (maor)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var xsrfCookie = postman.getResponseCookie(\"csrftoken\"); ",
+							"pm.collectionVariables.set('csrftoken', xsrfCookie.value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "maor",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "maor",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/login_user",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"login_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_message (maor to tomer)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "this is a title",
+							"type": "default"
+						},
+						{
+							"key": "body",
+							"value": "this is the body of the message",
+							"type": "default"
+						},
+						{
+							"key": "receiver",
+							"value": "tomer",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/send_message",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"send_message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_user (tomer)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "tomer",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "tomer",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/login_user",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"login_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read_unread_messages",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/read_unread_messages",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"read_unread_messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read_all_messages",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/read_all_messages",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"read_all_messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read_message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/read_message",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"read_message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "message_id",
+							"value": "1",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/delete_message",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"delete_message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout_user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"csrftoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRFToken",
+						"value": "{{csrftoken}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://abra-backend.herokuapp.com/messenger/logout_user",
+					"protocol": "https",
+					"host": [
+						"abra-backend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"messenger",
+						"logout_user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "csrftoken",
+			"value": ""
+		}
+	]
+}
