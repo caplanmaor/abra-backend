@@ -5,7 +5,9 @@ from django.db.models import Q
 from messenger.models import Message
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def create_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -15,6 +17,7 @@ def create_user(request):
         user.save()
         return HttpResponse(status=200)
 
+@csrf_exempt
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -22,11 +25,6 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         login(request, user)
         return HttpResponse(status=200)
-
-@login_required
-def logout_user(request):
-    logout(request)
-    return HttpResponse(status=200)
 
 def send_message(request):
     if request.method == "POST":
@@ -41,6 +39,11 @@ def send_message(request):
         else:       
             # Do something for anonymous users.
             return HttpResponse(status=500)
+
+@login_required
+def logout_user(request):
+    logout(request)
+    return HttpResponse(status=200)
 
 @login_required
 def read_message(request):
