@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'abra-backend.herokuapp.com'
+    'https://abra-backend.herokuapp.com'
 ]
 
 # Application definition
