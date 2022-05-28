@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-vjaq$+u_6%8(n3&8wa3(5^a#4m@(%ppp(hup$1b=@)pd(#)cvb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'abra-backend.herokuapp.com'
+]
 
 
 # Application definition
