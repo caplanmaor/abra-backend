@@ -78,13 +78,13 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'messenger',
+        'NAME': 'd9dmh7po3os4hl',
 
-        'USER': 'postgres',
+        'USER': 'dygnbbhxtoveua',
 
-        'PASSWORD': 'postgres',
+        'PASSWORD': '010412bcd79d6f1bb2ccf63eff6f8aeebfdea0c77689bd4777c136c9672f29b6',
 
-        'HOST': '172.18.0.2',
+        'HOST': 'ec2-52-30-67-143.eu-west-1.compute.amazonaws.com',
 
         'PORT': 5432,
 
