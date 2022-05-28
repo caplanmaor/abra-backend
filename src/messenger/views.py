@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from messenger.models import Message
+from django.core import serializers
 
 # import json
 @csrf_exempt
@@ -40,3 +41,35 @@ def send_message(request):
         else:       
             # Do something for anonymous users.
             return HttpResponse(status=500)
+
+@csrf_exempt
+def read_message(request):
+    if request.method == "GET":
+        message = Message.objects.filter(receiver_id=request.user.id).first()
+        # set message as read
+        message.is_read = True
+        message.save()
+        message_json = serializers.serialize("json", [message])
+        return HttpResponse(message_json)
+
+@csrf_exempt
+def read_all_messages(request):
+    if request.method == "GET":
+        messages = Message.objects.filter(receiver_id=request.user.id).all()
+        # set messages as read
+        for message in messages:
+            message.is_read = True
+            message.save()
+        messages_json = serializers.serialize("json", messages)
+        return HttpResponse(messages_json)
+
+@csrf_exempt
+def read_unread_messages(request):
+    if request.method == "GET":
+        messages = Message.objects.filter(receiver_id=request.user.id).filter(is_read=False).all()
+        # set messages as read
+        for message in messages:
+            message.is_read = True
+            message.save()
+        messages_json = serializers.serialize("json", messages)
+        return HttpResponse(messages_json)
