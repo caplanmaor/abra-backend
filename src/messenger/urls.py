@@ -9,4 +9,5 @@ urlpatterns = [
     path('read_all_messages', views.read_all_messages, name='read_all_messages'),
     path('read_unread_messages', views.read_unread_messages, name='read_unread_messages'),
     path('delete_message', views.delete_message, name='delete_message'),
+    path('logout_user', views.logout_user, name='logout_user'),
 ]

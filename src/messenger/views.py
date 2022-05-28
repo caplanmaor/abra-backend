@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from messenger.models import Message
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 
 def create_user(request):
     if request.method == "POST":
@@ -22,21 +23,26 @@ def login_user(request):
         login(request, user)
         return HttpResponse(status=200)
 
+@login_required
+def logout_user(request):
+    logout(request)
+    return HttpResponse(status=200)
+
 def send_message(request):
     if request.method == "POST":
         if request.user.is_authenticated:
-            current_user = request.user
             title = request.POST['title']
             body = request.POST['body']
             receiver = request.POST['receiver']
             rec_user = User.objects.get(username=receiver)
-            message = Message.objects.create(title=title, body=body, owner_id=current_user.id, receiver_id=rec_user.id)
+            message = Message.objects.create(title=title, body=body, owner_id=request.user.id, receiver_id=rec_user.id)
             message.save()
             return HttpResponse(status=200)
         else:       
             # Do something for anonymous users.
             return HttpResponse(status=500)
 
+@login_required
 def read_message(request):
     if request.method == "GET":
         message = Message.objects.filter(receiver_id=request.user.id).first()
@@ -46,6 +52,7 @@ def read_message(request):
         message_json = serializers.serialize("json", [message])
         return HttpResponse(message_json)
 
+@login_required
 def read_all_messages(request):
     if request.method == "GET":
         messages = Message.objects.filter(receiver_id=request.user.id).all()
@@ -56,6 +63,7 @@ def read_all_messages(request):
         messages_json = serializers.serialize("json", messages)
         return HttpResponse(messages_json)
 
+@login_required
 def read_unread_messages(request):
     if request.method == "GET":
         messages = Message.objects.filter(receiver_id=request.user.id).filter(is_read=False).all()
@@ -66,6 +74,7 @@ def read_unread_messages(request):
         messages_json = serializers.serialize("json", messages)
         return HttpResponse(messages_json)
 
+@login_required
 def delete_message(request):
     if request.method == "POST":
         id = request.POST['message_id']
